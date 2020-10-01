@@ -1,0 +1,24 @@
+service: Serverless
+provider:
+  name: kubeless
+  runtime: python2.7
+
+
+package:
+  artifact: .serverless/Serverless.zip
+functions:
+  clock:
+    handler: Server.print_clock
+    package:
+      artifact: clock.zip
+    events:
+      - schedule: every 24 hours
+  sendmail:
+      handler: Server.remind
+      package:
+        artifact: remind.zip
+      events:
+        - trigger: 'api_call'
+
+
+
