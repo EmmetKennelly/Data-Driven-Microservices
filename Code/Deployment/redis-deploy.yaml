@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deploy
+  annotations:
+    kompose.cmd: Kompose convert -f docker-compose.yml
+    kompose.version: 1.21.0 
+    labels:
+    io.kompose.service: redis
+  name: redis
+  spec:
+  selector:
+    matchLabels:
+    app: redis
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: redis
+
+    spec:
+      containers:
+       -env:
+       - name: redis
+          image: redis:alpine
+       - name: DEFAULT_USER
+         value: admin
+          image: redis:alpine
+
+        ports:
+        - containerPort: 6379
+        - containerPort: 6389
+        resources: {}
+
+   
+
+
+

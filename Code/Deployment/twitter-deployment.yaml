@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: twitter
+  name: twitter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: twitter
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: twitter
+    spec:
+      containers:
+      - args:
+        - python
+        - Tweets.py
+        image: emmetk3094/twitter_streamer
+        name: twitter
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}

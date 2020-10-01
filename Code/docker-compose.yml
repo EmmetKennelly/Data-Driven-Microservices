@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  product-service:
+    build: ./Analysis
+    volumes:
+      - ./Analysis:/usr/src/app
+    ports:
+      - "5001:80"
+  
+  
+  database-service:
+    build: ./RedditStreamer
+    depends_on:
+      -redis
+    volumes:
+      - ./RedditStreamer:/usr/src/app
+    ports:
+      - "5002:80"
+     
+  redis:
+    image: redis:alpine
+    ports: 
+      - "6379:6379"
+
+ reddit-service:
+    build: ./Stream
+    volumes:
+      - ./Stream:/usr/src/app
+    ports:
+      - "5002:80"
+  redis:
+    image: redis:alpine
+    ports: 
+      - "6379:6379"
+  
+  repository:
+    build: "./rep"
+    image: MyProject/sentiment_rep
+    links:
+      - mongodb-repository
+    environment:
+      DATASTORE_ADDR: datastore:27017
+    links:
+      - nats
+    environment:
+      - "NATS_URI=nats://nats:4222"
+    depends_on:
+      - nats
+    ports:
+      - "9090:9090"
+  mongodb-repository:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+      - 8024:8023
+    enviroment:
+    -DEFAULT_USER=admin
+
+

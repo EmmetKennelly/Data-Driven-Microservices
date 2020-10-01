@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    run: reddit
+  name: reddit
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: reddit
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: reddit
+    spec:
+      containers:
+      - args:
+        - -t
+        - "0"
+        - python
+        - RedditStreamer.py
+        image: emmetk3094/reddit_streamer
+        name: reddit
+        ports:
+        - containerPort: 8080
+        resources: {}
+      restartPolicy: Always
+status: {}
+
+
+

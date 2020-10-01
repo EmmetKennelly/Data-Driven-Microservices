@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    run: website
+  name: website
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: website
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: website
+    spec:
+      containers:
+      - args:
+        - -t
+        - "0"
+        - python
+        - Flask.py
+        image: emmetk3094/website_streamer
+        name: twitter
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+
+
+
